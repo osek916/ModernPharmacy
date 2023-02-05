@@ -11,8 +11,8 @@ namespace ModernPharmacy.Shared
         public int Id { get; set; }
         public string Name { get; set; }
         public bool HasPrescriptionDrugs { get; set; }
-        public string ContactNumber { get; set; }
-        public string ContactEmail { get; set; }
+        public string ContactNumber { get; set; } = string.Empty;
+        public string ContactEmail { get; set; } = string.Empty;
         public int AddressId { get; set; }
         public virtual Address Address { get; set; }
     }
