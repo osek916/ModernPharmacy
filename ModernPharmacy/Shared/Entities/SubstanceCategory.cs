@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace ModernPharmacy.Shared
 {
-    public class Substance
+    public  class SubstanceCategory
     {
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         public string Description { get; set; } = string.Empty;
-        public virtual List<Drug> Drugs { get; set; } = new List<Drug>();
-        public virtual List<Substance> Substances { get; set; } = new List<Substance>();
+        public virtual List<Substance> Substances { get; set; }
     }
 }

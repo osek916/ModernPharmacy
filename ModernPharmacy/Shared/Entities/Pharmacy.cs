@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModernPharmacy.Shared
+namespace ModernPharmacy.Shared.Entities
 {
     public class Pharmacy
     {

@@ -12,8 +12,8 @@ using ModernPharmacy.Server.Data;
 namespace ModernPharmacy.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230205131037_AddedAddressesAndUpdated")]
-    partial class AddedAddressesAndUpdated
+    [Migration("20230206133108_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,7 +39,7 @@ namespace ModernPharmacy.Server.Migrations
                     b.ToTable("DrugSubstance");
                 });
 
-            modelBuilder.Entity("ModernPharmacy.Shared.Address", b =>
+            modelBuilder.Entity("ModernPharmacy.Shared.Entities.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -64,7 +64,7 @@ namespace ModernPharmacy.Server.Migrations
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("ModernPharmacy.Shared.Drug", b =>
+            modelBuilder.Entity("ModernPharmacy.Shared.Entities.Drug", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -92,12 +92,38 @@ namespace ModernPharmacy.Server.Migrations
                     b.Property<bool>("PrescriptionRequired")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("ShippingOption")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("Drugs");
                 });
 
-            modelBuilder.Entity("ModernPharmacy.Shared.Pharmacy", b =>
+            modelBuilder.Entity("ModernPharmacy.Shared.Entities.DrugSubstance", b =>
+                {
+                    b.Property<int>("DrugSubstanceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DrugSubstanceId"), 1L, 1);
+
+                    b.Property<int>("DrugId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubstanceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DrugSubstanceId");
+
+                    b.HasIndex("DrugId");
+
+                    b.HasIndex("SubstanceId");
+
+                    b.ToTable("DrugSubstances");
+                });
+
+            modelBuilder.Entity("ModernPharmacy.Shared.Entities.Pharmacy", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -131,6 +157,29 @@ namespace ModernPharmacy.Server.Migrations
                     b.ToTable("Pharmacies");
                 });
 
+            modelBuilder.Entity("ModernPharmacy.Shared.Entities.SubstanceSubstanceCategory", b =>
+                {
+                    b.Property<int>("SubstanceSubstanceCategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubstanceSubstanceCategoryId"), 1L, 1);
+
+                    b.Property<int>("SubstanceCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubstanceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SubstanceSubstanceCategoryId");
+
+                    b.HasIndex("SubstanceCategoryId");
+
+                    b.HasIndex("SubstanceId");
+
+                    b.ToTable("SubstanceSubstanceCategories");
+                });
+
             modelBuilder.Entity("ModernPharmacy.Shared.Substance", b =>
                 {
                     b.Property<int>("Id")
@@ -147,17 +196,7 @@ namespace ModernPharmacy.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SubstanceCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SubstanceId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SubstanceCategoryId");
-
-                    b.HasIndex("SubstanceId");
 
                     b.ToTable("Substances");
                 });
@@ -183,9 +222,24 @@ namespace ModernPharmacy.Server.Migrations
                     b.ToTable("SubstanceCategories");
                 });
 
+            modelBuilder.Entity("SubstanceSubstanceCategory", b =>
+                {
+                    b.Property<int>("SubstanceCategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubstancesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SubstanceCategoriesId", "SubstancesId");
+
+                    b.HasIndex("SubstancesId");
+
+                    b.ToTable("SubstanceSubstanceCategory");
+                });
+
             modelBuilder.Entity("DrugSubstance", b =>
                 {
-                    b.HasOne("ModernPharmacy.Shared.Drug", null)
+                    b.HasOne("ModernPharmacy.Shared.Entities.Drug", null)
                         .WithMany()
                         .HasForeignKey("DrugsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -198,42 +252,74 @@ namespace ModernPharmacy.Server.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ModernPharmacy.Shared.Pharmacy", b =>
+            modelBuilder.Entity("ModernPharmacy.Shared.Entities.DrugSubstance", b =>
                 {
-                    b.HasOne("ModernPharmacy.Shared.Address", "Address")
+                    b.HasOne("ModernPharmacy.Shared.Entities.Drug", "Drug")
+                        .WithMany()
+                        .HasForeignKey("DrugId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ModernPharmacy.Shared.Substance", "Substance")
+                        .WithMany()
+                        .HasForeignKey("SubstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Drug");
+
+                    b.Navigation("Substance");
+                });
+
+            modelBuilder.Entity("ModernPharmacy.Shared.Entities.Pharmacy", b =>
+                {
+                    b.HasOne("ModernPharmacy.Shared.Entities.Address", "Address")
                         .WithOne("Pharmacy")
-                        .HasForeignKey("ModernPharmacy.Shared.Pharmacy", "AddressId")
+                        .HasForeignKey("ModernPharmacy.Shared.Entities.Pharmacy", "AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("ModernPharmacy.Shared.Substance", b =>
+            modelBuilder.Entity("ModernPharmacy.Shared.Entities.SubstanceSubstanceCategory", b =>
                 {
-                    b.HasOne("ModernPharmacy.Shared.SubstanceCategory", null)
-                        .WithMany("Substances")
-                        .HasForeignKey("SubstanceCategoryId");
+                    b.HasOne("ModernPharmacy.Shared.SubstanceCategory", "SubstanceCategory")
+                        .WithMany()
+                        .HasForeignKey("SubstanceCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("ModernPharmacy.Shared.Substance", null)
-                        .WithMany("Substances")
-                        .HasForeignKey("SubstanceId");
+                    b.HasOne("ModernPharmacy.Shared.Substance", "Substance")
+                        .WithMany()
+                        .HasForeignKey("SubstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Substance");
+
+                    b.Navigation("SubstanceCategory");
                 });
 
-            modelBuilder.Entity("ModernPharmacy.Shared.Address", b =>
+            modelBuilder.Entity("SubstanceSubstanceCategory", b =>
                 {
-                    b.Navigation("Pharmacy")
+                    b.HasOne("ModernPharmacy.Shared.SubstanceCategory", null)
+                        .WithMany()
+                        .HasForeignKey("SubstanceCategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ModernPharmacy.Shared.Substance", null)
+                        .WithMany()
+                        .HasForeignKey("SubstancesId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ModernPharmacy.Shared.Substance", b =>
+            modelBuilder.Entity("ModernPharmacy.Shared.Entities.Address", b =>
                 {
-                    b.Navigation("Substances");
-                });
-
-            modelBuilder.Entity("ModernPharmacy.Shared.SubstanceCategory", b =>
-                {
-                    b.Navigation("Substances");
+                    b.Navigation("Pharmacy")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
