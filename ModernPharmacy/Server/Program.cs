@@ -22,7 +22,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IPharmacyService, IPharmacyService>();
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
+builder.Services.AddScoped<IPharmacyService, PharmacyService>();
 
 builder.Services.AddHttpContextAccessor();
 
