@@ -1,7 +1,11 @@
 global using ModernPharmacy.Shared;
 global using Microsoft.EntityFrameworkCore;
 global using ModernPharmacy.Server.Data;
+global using ModernPharmacy.Server.Services.PharmacyService;
+global using ModernPharmacy.Shared.Entities;
+global using ModernPharmacy.Server.Exceptions;
 using Microsoft.AspNetCore.ResponseCompression;
+using ModernPharmacy.Server.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +19,16 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IPharmacyService, IPharmacyService>();
+
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
+
+app.UseSwaggerUI();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -28,7 +41,9 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
+app.UseSwagger();
 app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
