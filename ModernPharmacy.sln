@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernPharmacy.Server", "ModernPharmacy\Server\ModernPharmacy.Server.csproj", "{0877BFA4-732A-49B0-838A-CAF325923BD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernPharmacy.Server", "ModernPharmacy\Server\ModernPharmacy.Server.csproj", "{0877BFA4-732A-49B0-838A-CAF325923BD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernPharmacy.Client", "ModernPharmacy\Client\ModernPharmacy.Client.csproj", "{BFB928C5-2587-495B-95B0-3CAEAA6F7B8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernPharmacy.Client", "ModernPharmacy\Client\ModernPharmacy.Client.csproj", "{BFB928C5-2587-495B-95B0-3CAEAA6F7B8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernPharmacy.Shared", "ModernPharmacy\Shared\ModernPharmacy.Shared.csproj", "{BFBBDA81-D673-4F4F-8E22-B0C5179DF10F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernPharmacy.Shared", "ModernPharmacy\Shared\ModernPharmacy.Shared.csproj", "{BFBBDA81-D673-4F4F-8E22-B0C5179DF10F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernPharmacyTest", "ModernPharmacyTest\ModernPharmacyTest.csproj", "{DD6313C1-939F-417A-8272-872641C1437B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernPharmacyTest", "ModernPharmacyTest\ModernPharmacyTest.csproj", "{DD6313C1-939F-417A-8272-872641C1437B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

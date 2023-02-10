@@ -11,6 +11,11 @@
     font-size: 1.1rem;
 }
 
+.text-sidebar
+{
+    margin-left: 10px;
+}
+
 .oi {
     width: 2rem;
     font-size: 1.1rem;
@@ -19,8 +24,9 @@
 }
 
 .nav-item {
-    font-size: 0.9rem;
+    font-size: 1.4rem;
     padding-bottom: 0.5rem;
+    font-family:'Lucida Sans Typewriter';
 }
 
     .nav-item:first-of-type {
@@ -57,6 +63,12 @@
 
     .collapse {
         /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+}
+
+@media (max-width: 641px) {
+    .collapse {
         display: block;
     }
 }
