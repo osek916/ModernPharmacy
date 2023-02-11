@@ -26,6 +26,13 @@ namespace ModernPharmacy.Server.Controllers
             var result = await _articleService.GetArticleByTitleAsync(title);
             return Ok(result);
         }
+
+        [HttpGet]
+        public async Task<ActionResult<ServiceResponse<List<Article>>>> GetAllArticlesAsync()
+        {
+            var result = await _articleService.GetAllArticlesAsync();
+            return Ok(result);
+        }
     }
 
     
