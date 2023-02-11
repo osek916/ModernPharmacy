@@ -9,6 +9,18 @@
             _dataContext = dataContext;
         }
 
+        public async Task<ServiceResponse<List<Article>>> GetAllArticlesAsync()
+        {
+            var response = new ServiceResponse<List<Article>>
+            {
+                Data = await _dataContext.Articles
+                .Include(a => a.Tags)
+                .ToListAsync()
+            };
+
+            return response;
+        }
+
         public async Task<ServiceResponse<Article>> GetArticleByIdAsync(int articleId)
         {
             if(articleId < 1)
