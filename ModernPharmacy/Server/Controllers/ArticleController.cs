@@ -1,7 +1,23 @@
-﻿namespace ModernPharmacy.Server.Controllers
-{
-    public class ArticleController
-    {
+﻿using Microsoft.AspNetCore.Mvc;
 
+namespace ModernPharmacy.Server.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ArticleController : ControllerBase
+    {
+        private readonly IArticleService _articleService;
+
+        public ArticleController(IArticleService articleService)
+        {
+            _articleService = articleService;
+        }
+
+        [HttpGet("{articleId}")]
+        public async Task<ActionResult<ServiceResponse<Article>>> GetArticleById(int articleId)
+        {
+            var result = await _articleService.GetArticleByIdAsync(articleId);
+            return Ok(result);
+        }
     }
 }

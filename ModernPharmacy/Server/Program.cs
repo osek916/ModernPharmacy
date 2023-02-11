@@ -2,6 +2,7 @@ global using ModernPharmacy.Shared;
 global using Microsoft.EntityFrameworkCore;
 global using ModernPharmacy.Server.Data;
 global using ModernPharmacy.Server.Services.PharmacyService;
+global using ModernPharmacy.Server.Services.ArticleService;
 global using ModernPharmacy.Shared.Entities;
 global using ModernPharmacy.Server.Exceptions;
 using Microsoft.AspNetCore.ResponseCompression;

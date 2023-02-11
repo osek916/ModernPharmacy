@@ -9,7 +9,7 @@
             _dataContext = dataContext;
         }
 
-        public Task<ServiceResponse<Article>> GetArticleByIdAsync(int id)
+        public Task<ServiceResponse<Article>> GetArticleByIdAsync(int articleId)
         {
             return null;
         }

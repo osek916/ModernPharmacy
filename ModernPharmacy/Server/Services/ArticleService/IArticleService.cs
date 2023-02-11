@@ -2,6 +2,6 @@
 {
     public interface IArticleService
     {
-        Task<ServiceResponse<Article>> GetArticleByIdAsync(int id);
+        Task<ServiceResponse<Article>> GetArticleByIdAsync(int articleId);
     }
 }
