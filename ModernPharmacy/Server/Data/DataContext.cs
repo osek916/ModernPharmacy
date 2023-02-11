@@ -103,6 +103,8 @@ namespace ModernPharmacy.Server.Data
                     new DrugSubstance { DrugSubstanceId = 12, DrugId = 11, SubstanceId = 7}
                 );
 
+           
+
         }
         public DbSet<SubstanceCategory> SubstanceCategories { get; set; }
         public DbSet<Substance> Substances { get; set; }
@@ -111,5 +113,6 @@ namespace ModernPharmacy.Server.Data
         public DbSet<Drug> Drugs { get; set; }
         public DbSet<SubstanceSubstanceCategory> SubstanceSubstanceCategories { get; set; }
         public DbSet<DrugSubstance> DrugSubstances { get; set; }
+        public DbSet<Article> Articles { get; set; }
     }
 }
