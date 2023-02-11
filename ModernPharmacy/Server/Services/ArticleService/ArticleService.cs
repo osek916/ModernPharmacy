@@ -24,5 +24,21 @@
             response.Data = article;
             return response;
         }
+
+        public async Task<ServiceResponse<Article>> GetArticleByTitleAsync(string title)
+        {
+            if (title == string.Empty)
+                throw new BadRequestException($"Title cannot be empty");
+
+            var response = new ServiceResponse<Article>();
+            var article = await _dataContext.Articles.FirstOrDefaultAsync(a => a.Title == title);
+            if (article == null)
+            {
+                throw new NotFoundException($"Article doesn't exist");
+            }
+
+            response.Data = article;
+            return response;
+        }
     }
 }
