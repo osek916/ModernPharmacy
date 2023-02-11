@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ModernPharmacy.Shared.Entities;
 
-namespace ModernPharmacy.Server.Controllers.PharmacyController
+namespace ModernPharmacy.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
