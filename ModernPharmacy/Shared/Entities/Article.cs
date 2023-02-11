@@ -15,6 +15,9 @@ namespace ModernPharmacy.Shared.Entities
         public DateTime CreatedDate { get; set; }
         public int CreatedById { get; set; }
         public DateTime? ModifiedDate { get; set; }
-        public int ModifiedById { get; set; }
+        public int? ModifiedById { get; set; }
+        public int ParentId { get; set; } = 0;
+        public List<Tag> Tags { get; set; }
+
     }
 }

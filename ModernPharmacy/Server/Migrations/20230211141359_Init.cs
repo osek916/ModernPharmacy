@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ModernPharmacy.Server.Migrations
 {
-    public partial class AddedArticleToDatabase : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,11 +21,27 @@ namespace ModernPharmacy.Server.Migrations
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedById = table.Column<int>(type: "int", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedById = table.Column<int>(type: "int", nullable: false)
+                    ModifiedById = table.Column<int>(type: "int", nullable: true),
+                    ParentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Articles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DifferentProducts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DifferentProducts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -38,9 +54,10 @@ namespace ModernPharmacy.Server.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumberOfTablets = table.Column<int>(type: "int", nullable: true),
                     MilligramsPerTablets = table.Column<int>(type: "int", nullable: true),
+                    MilligramsForTheWholeDrug = table.Column<int>(type: "int", nullable: true),
                     LumpSumDrug = table.Column<bool>(type: "bit", nullable: false),
                     PrescriptionRequired = table.Column<bool>(type: "bit", nullable: false),
-                    ShippingOption = table.Column<bool>(type: "bit", nullable: false)
+                    ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,6 +107,50 @@ namespace ModernPharmacy.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Substances", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tags",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ArticleId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tags", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tags_Articles_ArticleId",
+                        column: x => x.ArticleId,
+                        principalTable: "Articles",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DifferentProductId = table.Column<int>(type: "int", nullable: true),
+                    DrugId = table.Column<int>(type: "int", nullable: true),
+                    ProposedPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_DifferentProducts_DifferentProductId",
+                        column: x => x.DifferentProductId,
+                        principalTable: "DifferentProducts",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Products_Drugs_DrugId",
+                        column: x => x.DrugId,
+                        principalTable: "Drugs",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -212,112 +273,32 @@ namespace ModernPharmacy.Server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Drugs",
-                columns: new[] { "Id", "Description", "LumpSumDrug", "MilligramsPerTablets", "Name", "NumberOfTablets", "PrescriptionRequired", "ShippingOption" },
-                values: new object[,]
+            migrationBuilder.CreateTable(
+                name: "ProductStates",
+                columns: table => new
                 {
-                    { 1, "Description Apap", false, 500, "Apap", 10, false, true },
-                    { 2, "Description Apap", false, 500, "Apap", 5, false, true },
-                    { 3, "Description Apap", false, 500, "Apap", 20, false, true },
-                    { 4, "Description Tylenol", false, 500, "Tylenol", 100, false, true },
-                    { 5, "Description Nurofen", false, 200, "Nurofen", 20, false, true },
-                    { 6, "Description Ibuprom", false, 200, "Ibuprom", 10, false, true },
-                    { 7, "Description Tramal Retard", true, 100, "Tramal retard", 50, true, false },
-                    { 8, "Description Valeriana", false, 2500, "Valeriana", 60, false, false },
-                    { 9, "Description Morfeo", false, 10, "Morfeo", 10, false, false },
-                    { 10, "Description Sonata", false, 10, "Sonata", 10, false, false },
-                    { 11, "Description Aviomarin", false, 500, "Aviomarin", 5, false, false },
-                    { 12, "Description Zirtec", true, 10, "Zirtec", 20, true, false }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Pharmacies",
-                columns: new[] { "Id", "AddressId", "ContactEmail", "ContactNumber", "HasPrescriptionDrugs", "Name" },
-                values: new object[,]
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PharmacyId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    AmountOfProducts = table.Column<int>(type: "int", nullable: false),
+                    PriceForOne = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
                 {
-                    { 1, 0, "slowik@apteka.pl", "723171222", true, "Slownik" },
-                    { 2, 0, "drugaapteka@apteka.pl", "594034033", true, "DrugaApteka" },
-                    { 3, 0, "szczecinska@apteka.pl", "660650444", false, "Szczecinska" },
-                    { 4, 0, "gryficka@wp.pl", "594033222", false, "Gryficka" },
-                    { 5, 0, "kamil-losiak@wp.pl", "730660434", true, "ModernPharmacy" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "SubstanceCategories",
-                columns: new[] { "Id", "Description", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Description Painkiller", "Painkiller" },
-                    { 2, "Description Sleeping pills", "Sleeping pills" },
-                    { 3, "Description Antihistamines", "Antihistamines" },
-                    { 4, "Description Antipsychotic", "Antypsychotic" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Substances",
-                columns: new[] { "Id", "Description", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Description Paracetamol", "Paracetamol" },
-                    { 2, "Description Ibuprofen", "Ibuprofen" },
-                    { 3, "Description Tramadol", "Tramadol" },
-                    { 4, "Description Valeriana", "Valeriana" },
-                    { 5, "Description Zaleplon", "Zaleplon" },
-                    { 6, "Description Eszopiclone", "Eszopiclone" },
-                    { 7, "Description Cetirizine", "Cetirizine" },
-                    { 8, "Description Clemastine", "Clemastine" },
-                    { 9, "Description Dimenhydrinate", "Dimenhydrinate" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Addresses",
-                columns: new[] { "Id", "City", "PharmacyId", "PostalCode", "Street" },
-                values: new object[,]
-                {
-                    { 1, "Międzylesie", 1, "57530", "Graniczna 7" },
-                    { 2, "Wrocław", 2, "21599", "Wolności 22c" },
-                    { 3, "Szczecin", 3, "35300", "Słowiańska 3" },
-                    { 4, "Gryfice", 4, "64554", "Poniatowska 4" },
-                    { 5, "Gryfice", 5, "72-300", "Grunwaldzka 3" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "DrugSubstances",
-                columns: new[] { "DrugId", "SubstanceId", "DrugSubstanceId" },
-                values: new object[,]
-                {
-                    { 1, 1, 1 },
-                    { 2, 1, 2 },
-                    { 3, 1, 3 },
-                    { 4, 2, 4 },
-                    { 5, 2, 5 },
-                    { 6, 2, 6 },
-                    { 7, 3, 7 },
-                    { 8, 4, 8 },
-                    { 9, 5, 9 },
-                    { 10, 5, 10 },
-                    { 11, 7, 12 },
-                    { 12, 9, 11 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "SubstanceSubstanceCategories",
-                columns: new[] { "SubstanceCategoryId", "SubstanceId", "SubstanceSubstanceCategoryId" },
-                values: new object[,]
-                {
-                    { 1, 1, 1 },
-                    { 1, 2, 2 },
-                    { 1, 3, 3 },
-                    { 2, 4, 4 },
-                    { 4, 4, 12 },
-                    { 2, 5, 5 },
-                    { 2, 6, 6 },
-                    { 4, 6, 11 },
-                    { 3, 7, 7 },
-                    { 4, 7, 10 },
-                    { 3, 8, 8 },
-                    { 3, 9, 9 }
+                    table.PrimaryKey("PK_ProductStates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductStates_Pharmacies_PharmacyId",
+                        column: x => x.PharmacyId,
+                        principalTable: "Pharmacies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductStates_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -337,6 +318,30 @@ namespace ModernPharmacy.Server.Migrations
                 column: "DrugId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Products_DifferentProductId",
+                table: "Products",
+                column: "DifferentProductId",
+                unique: true,
+                filter: "[DifferentProductId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_DrugId",
+                table: "Products",
+                column: "DrugId",
+                unique: true,
+                filter: "[DrugId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductStates_PharmacyId",
+                table: "ProductStates",
+                column: "PharmacyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductStates_ProductId",
+                table: "ProductStates",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SubstanceSubstanceCategories_SubstanceCategoryId",
                 table: "SubstanceSubstanceCategories",
                 column: "SubstanceCategoryId");
@@ -345,6 +350,11 @@ namespace ModernPharmacy.Server.Migrations
                 name: "IX_SubstanceSubstanceCategory_SubstancesId",
                 table: "SubstanceSubstanceCategory",
                 column: "SubstancesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tags_ArticleId",
+                table: "Tags",
+                column: "ArticleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -353,13 +363,13 @@ namespace ModernPharmacy.Server.Migrations
                 name: "Addresses");
 
             migrationBuilder.DropTable(
-                name: "Articles");
-
-            migrationBuilder.DropTable(
                 name: "DrugSubstance");
 
             migrationBuilder.DropTable(
                 name: "DrugSubstances");
+
+            migrationBuilder.DropTable(
+                name: "ProductStates");
 
             migrationBuilder.DropTable(
                 name: "SubstanceSubstanceCategories");
@@ -368,16 +378,28 @@ namespace ModernPharmacy.Server.Migrations
                 name: "SubstanceSubstanceCategory");
 
             migrationBuilder.DropTable(
+                name: "Tags");
+
+            migrationBuilder.DropTable(
                 name: "Pharmacies");
 
             migrationBuilder.DropTable(
-                name: "Drugs");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "SubstanceCategories");
 
             migrationBuilder.DropTable(
                 name: "Substances");
+
+            migrationBuilder.DropTable(
+                name: "Articles");
+
+            migrationBuilder.DropTable(
+                name: "DifferentProducts");
+
+            migrationBuilder.DropTable(
+                name: "Drugs");
         }
     }
 }

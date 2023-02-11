@@ -11,7 +11,7 @@ namespace ModernPharmacy.Server.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            
             modelBuilder.Entity<Pharmacy>()
                 .HasOne<Address>(p => p.Address)
                 .WithOne(a => a.Pharmacy)
@@ -22,7 +22,20 @@ namespace ModernPharmacy.Server.Data
 
             modelBuilder.Entity<DrugSubstance>()
                 .HasKey(ssc => new { ssc.SubstanceId, ssc.DrugId });
+
+            modelBuilder.Entity<Drug>()
+                .HasOne<Product>(d => d.Product)
+                .WithOne(p => p.Drug)
+                .HasForeignKey<Product>(d => d.DrugId);
             
+            modelBuilder.Entity<DifferentProduct>()
+                .HasOne<Product>(p => p.Product)
+                .WithOne(p => p.DifferentProduct)
+                .HasForeignKey<Product>(d => d.DifferentProductId);
+
+            
+            /*
+
             modelBuilder.Entity<SubstanceCategory>().HasData(
                     new SubstanceCategory { Id = 1, Name = "Painkiller", Description = "Description Painkiller" },
                     new SubstanceCategory { Id = 2, Name = "Sleeping pills", Description = "Description Sleeping pills"},
@@ -103,7 +116,37 @@ namespace ModernPharmacy.Server.Data
                     new DrugSubstance { DrugSubstanceId = 12, DrugId = 11, SubstanceId = 7}
                 );
 
-           
+            modelBuilder.Entity<Tag>().HasData(
+                    new Tag { Id = 1, Name = "drug"},
+                    new Tag { Id = 2, Name = "sleep" },
+                    new Tag { Id = 3, Name = "bacteria" },
+                    new Tag { Id = 4, Name = "suplements" },
+                    new Tag { Id = 5, Name = "hygiene" },
+                    new Tag { Id = 5, Name = "children" },
+                    new Tag { Id = 5, Name = "pain" },
+                    new Tag { Id = 5, Name = "insonomia" },
+                    new Tag { Id = 5, Name = "brain" },
+                    new Tag { Id = 5, Name = "heart" },
+                    new Tag { Id = 5, Name = "diabetes" },
+                    new Tag { Id = 5, Name = "bow" },
+                    new Tag { Id = 5, Name = "anxiety" },
+                    new Tag { Id = 5, Name = "fatigue" },
+                    new Tag { Id = 5, Name = "depression" },
+                );
+            
+               modelBuilder.Entity<Article>().HasData(
+                    new Article { Id = 1, Title = "Antibiotics", CreatedById = 1, CreatedDate = DateTime.Today, ImagePath = "articleImages/drugs1.jpg", Text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." },
+                    new Article { Id = 2, Title = "Nootropics", CreatedById = 1, CreatedDate = DateTime.Today, ImagePath = "articleImages/drugs1.jpg", Text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." },
+                    new Article { Id = 3, Title = "Painkillers", CreatedById = 1, CreatedDate = DateTime.Today, ImagePath = "articleImages/drugs1.jpg", Text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." },
+                    new Article { Id = 4, Title = "Antiepileptic", CreatedById = 1, CreatedDate = DateTime.Today, ImagePath = "articleImages/drugs1.jpg", Text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." },
+                    new Article { Id = 5, Title = "SleepHigiene", CreatedById = 1, CreatedDate = DateTime.Today, ImagePath = "articleImages/drugs1.jpg", Text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." },
+                    new Article { Id = 6, Title = "Antibiotics", CreatedById = 1, CreatedDate = DateTime.Today, ImagePath = "articleImages/drugs1.jpg", Text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." },
+                    new Article { Id = 7, Title = "Antibiotics", CreatedById = 1, CreatedDate = DateTime.Today, ImagePath = "articleImages/drugs1.jpg", Text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." },
+
+
+                    );
+             
+            */
 
         }
         public DbSet<SubstanceCategory> SubstanceCategories { get; set; }
@@ -114,5 +157,9 @@ namespace ModernPharmacy.Server.Data
         public DbSet<SubstanceSubstanceCategory> SubstanceSubstanceCategories { get; set; }
         public DbSet<DrugSubstance> DrugSubstances { get; set; }
         public DbSet<Article> Articles { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<DifferentProduct> DifferentProducts { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductState> ProductStates { get; set; }
     }
 }
