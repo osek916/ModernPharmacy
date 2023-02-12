@@ -5,13 +5,13 @@ namespace ModernPharmacy.Client.Services.ArticleService
     public class ArticleService : IArticleService
     {
         private readonly HttpClient _http;
+        public List<Article> Articles { get; set; }
+        public List<string> ArticleTitles { get; set; }
 
         public ArticleService(HttpClient http)
         {
             _http = http;
         }
-
-        public List<Article> Articles { get; set; }
 
         /*
         public async Task GetArticleByIdAsync(int articleId)
@@ -24,6 +24,22 @@ namespace ModernPharmacy.Client.Services.ArticleService
         }
         */
 
-        
+        public async Task GetAllArticlesAsync()
+        {
+            var response = await _http.GetFromJsonAsync<ServiceResponse<List<Article>>>($"api/Article");
+            if(response != null && response.Data != null)
+            {
+                Articles = response.Data;
+            }
+        }
+
+        public async Task GetOnlyArticleTitlesAsync()
+        {
+            var response = await _http.GetFromJsonAsync<ServiceResponse<List<string>>>($"api/Article/Title");
+            if (response != null && response.Data != null)
+            {
+                ArticleTitles = response.Data;
+            }
+        }
     }
 }
