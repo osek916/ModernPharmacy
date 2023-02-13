@@ -6,24 +6,23 @@ namespace ModernPharmacy.Client.Services.ArticleService
     {
         private readonly HttpClient _http;
         public List<Article> Articles { get; set; }
-        public List<string> ArticleTitles { get; set; }
+        public Article Article { get; set; }
+        public List<Tuple<string, string>> ArticleTitlesAndImages { get; set; }
 
         public ArticleService(HttpClient http)
         {
             _http = http;
         }
-
         
         public async Task GetArticleByIdAsync(int articleId)
         {
             var response = await _http.GetFromJsonAsync<ServiceResponse<Article>>($"api/Article/{articleId}");
             if(response != null && response.Data != null)
             {
-
+                Article = response.Data;
             }
         }
         
-
         public async Task GetAllArticlesAsync()
         {
             var response = await _http.GetFromJsonAsync<ServiceResponse<List<Article>>>($"api/Article");
@@ -35,10 +34,19 @@ namespace ModernPharmacy.Client.Services.ArticleService
 
         public async Task GetOnlyArticleTitlesAsync()
         {
-            var response = await _http.GetFromJsonAsync<ServiceResponse<List<string>>>($"api/Article/Title");
+            var response = await _http.GetFromJsonAsync<ServiceResponse<List<Tuple<string, string>>>>($"api/Article/titleAndImagePath");
             if (response != null && response.Data != null)
             {
-                ArticleTitles = response.Data;
+                ArticleTitlesAndImages = response.Data;
+            }
+        }
+
+        public async Task GetArticleByTitleAsync(string title)
+        {
+            var response = await _http.GetFromJsonAsync<ServiceResponse<Article>>($"api/Article/{title}");
+            if (response != null && response.Data != null)
+            {
+                Article = response.Data;
             }
         }
     }
