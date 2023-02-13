@@ -52,5 +52,20 @@
             response.Data = article;
             return response;
         }
+
+        public async Task<ServiceResponse<List<Tuple<string,string>>>> GetOnlyArticleTitlesAsync()
+        {
+            var response = new ServiceResponse<List<Tuple<string,string>>>();
+            List<Tuple<string, string>> articles = await _dataContext.Articles.Select(a => new Tuple<string, string>(a.Title, a.ImagePath))
+                .ToListAsync();
+
+            if(articles == null)
+            {
+                throw new NotFoundException($"Article doesnt exist");
+            }
+
+            response.Data = articles;
+            return response;
+        }
     }
 }
