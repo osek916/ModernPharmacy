@@ -13,7 +13,7 @@ namespace ModernPharmacy.Client.Services.ArticleService
             _http = http;
         }
 
-        /*
+        
         public async Task GetArticleByIdAsync(int articleId)
         {
             var response = await _http.GetFromJsonAsync<ServiceResponse<Article>>($"api/Article/{articleId}");
@@ -22,7 +22,7 @@ namespace ModernPharmacy.Client.Services.ArticleService
 
             }
         }
-        */
+        
 
         public async Task GetAllArticlesAsync()
         {
