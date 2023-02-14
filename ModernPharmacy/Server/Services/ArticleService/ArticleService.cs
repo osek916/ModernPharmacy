@@ -53,10 +53,10 @@
             return response;
         }
 
-        public async Task<ServiceResponse<List<Tuple<string,string>>>> GetOnlyArticleTitlesAsync()
+        public async Task<ServiceResponse<List<Tuple<string, string>>>> GetOnlyArticleTitlesAsync() 
         {
-            var response = new ServiceResponse<List<Tuple<string,string>>>();
-            List<Tuple<string, string>> articles = await _dataContext.Articles.Select(a => new Tuple<string, string>(a.Title, a.ImagePath))
+            var response = new ServiceResponse<List<Tuple<string, string>>>();
+            List<Tuple<string, string>> articles = await _dataContext.Articles.Select(a => new Tuple<string, string>(a.Title, a.PagePath))
                 .ToListAsync();
 
             if(articles == null)

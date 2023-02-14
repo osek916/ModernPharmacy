@@ -34,7 +34,7 @@ namespace ModernPharmacy.Server.Controllers
             return Ok(result);
         }
 
-        [HttpGet("titleAndImagePath")]
+        [HttpGet("TitleAndPath")]
         public async Task<ActionResult<ServiceResponse<List<Tuple<string, string>>>>> GetOnlyArticleTitlesAsync()
         {
             var result = await _articleService.GetOnlyArticleTitlesAsync();

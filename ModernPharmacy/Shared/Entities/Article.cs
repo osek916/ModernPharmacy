@@ -21,6 +21,7 @@ namespace ModernPharmacy.Shared.Entities
         public int? ModifiedById { get; set; }
         public int ParentId { get; set; } = 0;
         public List<Tag> Tags { get; set; } = new List<Tag>();
+        public string PagePath { get; set; } = string.Empty;
 
     }
 }

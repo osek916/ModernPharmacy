@@ -7,8 +7,7 @@ namespace ModernPharmacy.Client.Services.ArticleService
         private readonly HttpClient _http;
         public List<Article> Articles { get; set; }
         public Article Article { get; set; }
-        public List<Tuple<string, string>> ArticleTitlesAndImages { get; set; }
-
+        public List<Tuple<string, string>> ArticleTitlesAndPaths { get; set; }
         public ArticleService(HttpClient http)
         {
             _http = http;
@@ -34,10 +33,10 @@ namespace ModernPharmacy.Client.Services.ArticleService
 
         public async Task GetOnlyArticleTitlesAsync()
         {
-            var response = await _http.GetFromJsonAsync<ServiceResponse<List<Tuple<string, string>>>>($"api/Article/titleAndImagePath");
+            var response = await _http.GetFromJsonAsync<ServiceResponse<List<Tuple<string, string>>>>($"api/Article/TitleAndPath");
             if (response != null && response.Data != null)
             {
-                ArticleTitlesAndImages = response.Data;
+                ArticleTitlesAndPaths = response.Data;
             }
         }
 
