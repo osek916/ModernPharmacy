@@ -3,6 +3,11 @@
 
 }
 
+.right-side {
+    width: 10%;
+    position:relative;
+}
+
 .page {
     position: relative;
     display: flex;
@@ -72,9 +77,8 @@ main {
     }
     
     .contentBody {
-        margin-left:7%;
         margin-top:40px;
-        width:60%;
+        width:70%;
 
     }
     .content {

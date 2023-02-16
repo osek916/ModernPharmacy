@@ -2,12 +2,37 @@
 @inject IArticleService ArticleService
 
 <PageTitle>Atricle Content</PageTitle>
-<h3>ArticleContent @Title and @((ArticleService.Article != null) ? ArticleService.Article.Title : "a")</h3>
+@if(ArticleService.Article != null)
+{   
+    <img class="rounded main-img-article border border-5" 
+         src=@ArticleService.Article.ImagePath />
+
+    <div class="title"><span>@ArticleService.Article.Title</span></div>
+    <div>
+        <div class="author">@($"Created by {ArticleService.Article.CreatedById} {ArticleService.Article.CreatedDate}")</div>
+        <div class="tags"></div>
+    </div>
+    <div class="text-container"><p>@ArticleService.Article.Text</p></div>
+    
+}
+else
+{
+    <p>Loading</p>
+}
+
+@*
+    <div class="title"><span>@((ArticleService.Article != null) ? "" : ArticleService.Article.Title)</span></div>
+
+    <img class="rounded main-img-article border border-5" 
+         src="@((ArticleService.Article == null) ? "" : ArticleService.Article.ImagePath )" />
+*@
 
 @code {
     [Parameter]
     public string? Title { get; set; }
-
+    //<h3>ArticleContent @Title and @((ArticleService.Article != null) ? ArticleService.Article.Title : "a")</h3>
+    //<img src="@($"~/{ArticleService.Article.ImagePath}")" />
+    //~/articleImages/antiepileptic.jpg
     async protected override Task OnParametersSetAsync()
     {
         await ArticleService.GetArticleByTitleAsync(Title);
