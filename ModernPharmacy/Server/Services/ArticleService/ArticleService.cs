@@ -39,33 +39,43 @@
 
         public async Task<ServiceResponse<Article>> GetArticleByTitleAsync(string title)
         {
-            if (title == string.Empty)
-                throw new BadRequestException($"Title cannot be empty");
+            
+                if (title == string.Empty)
+                    throw new BadRequestException($"Title cannot be empty");
 
-            var response = new ServiceResponse<Article>();
-            var article = await _dataContext.Articles.FirstOrDefaultAsync(a => a.Title == title);
-            if (article == null)
-            {
-                throw new NotFoundException($"Article doesn't exist");
-            }
+                var response = new ServiceResponse<Article>();
+                var article = await _dataContext.Articles.FirstOrDefaultAsync(a => a.Title == title);
+                if (article == null)
+                {
+                    throw new NotFoundException($"Article doesn't exist");
+                }
 
-            response.Data = article;
-            return response;
+                response.Data = article;
+                return response;
+            
+
+            
+            
         }
 
         public async Task<ServiceResponse<List<Tuple<string, string>>>> GetOnlyArticleTitlesAsync() 
         {
-            var response = new ServiceResponse<List<Tuple<string, string>>>();
-            List<Tuple<string, string>> articles = await _dataContext.Articles.Select(a => new Tuple<string, string>(a.Title, a.PagePath))
-                .ToListAsync();
+            
+                var response = new ServiceResponse<List<Tuple<string, string>>>();
+                List<Tuple<string, string>> articles = await _dataContext.Articles.Select(a => new Tuple<string, string>(a.Title, a.PagePath))
+                    .ToListAsync();
 
-            if(articles == null)
-            {
-                throw new NotFoundException($"Article doesnt exist");
-            }
+                if (articles == null)
+                {
+                    throw new NotFoundException($"Article doesnt exist");
+                }
 
-            response.Data = articles;
-            return response;
+                response.Data = articles;
+                return response;
+           
+
+            
+            
         }
     }
 }

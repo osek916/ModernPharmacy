@@ -7,7 +7,7 @@ namespace ModernPharmacy.Client.Services.ArticleService
         private readonly HttpClient _http;
         public List<Article> Articles { get; set; }
         public Article Article { get; set; }
-        public List<Tuple<string, string>> ArticleTitlesAndPaths { get; set; }
+        public List<Tuple<string, string>>? ArticleTitlesAndPaths { get; set; }
         public ArticleService(HttpClient http)
         {
             _http = http;

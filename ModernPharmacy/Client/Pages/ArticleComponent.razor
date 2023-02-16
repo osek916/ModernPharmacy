@@ -1,0 +1,15 @@
+﻿@page "/article/{title}"
+@inject IArticleService ArticleService
+
+<PageTitle>Atricle Content</PageTitle>
+<h3>ArticleContent @Title and @((ArticleService.Article != null) ? ArticleService.Article.Title : "a")</h3>
+
+@code {
+    [Parameter]
+    public string? Title { get; set; }
+
+    async protected override Task OnParametersSetAsync()
+    {
+        await ArticleService.GetArticleByTitleAsync(Title);
+    }
+}

@@ -13,7 +13,7 @@ namespace ModernPharmacy.Server.Controllers
             _articleService = articleService;
         }
 
-        [HttpGet("{articleId}")]
+        [HttpGet("{articleId:int}")]
         public async Task<ActionResult<ServiceResponse<Article>>> GetArticleById(int articleId)
         {
             var result = await _articleService.GetArticleByIdAsync(articleId);
@@ -34,7 +34,7 @@ namespace ModernPharmacy.Server.Controllers
             return Ok(result);
         }
 
-        [HttpGet("TitleAndPath")]
+        [HttpGet("TitleAndPath")] //api/Article/TitleAndPath"
         public async Task<ActionResult<ServiceResponse<List<Tuple<string, string>>>>> GetOnlyArticleTitlesAsync()
         {
             var result = await _articleService.GetOnlyArticleTitlesAsync();
