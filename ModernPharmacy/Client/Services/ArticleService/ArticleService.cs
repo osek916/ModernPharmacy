@@ -6,7 +6,7 @@ namespace ModernPharmacy.Client.Services.ArticleService
     {
         private readonly HttpClient _http;
         public List<Article> Articles { get; set; }
-        public Article Article { get; set; }
+        public ArticleDto Article { get; set; }
         public List<Tuple<string, string>>? ArticleTitlesAndPaths { get; set; }
         public ArticleService(HttpClient http)
         {
@@ -15,7 +15,7 @@ namespace ModernPharmacy.Client.Services.ArticleService
         
         public async Task GetArticleByIdAsync(int articleId)
         {
-            var response = await _http.GetFromJsonAsync<ServiceResponse<Article>>($"api/Article/{articleId}");
+            var response = await _http.GetFromJsonAsync<ServiceResponse<ArticleDto>>($"api/Article/{articleId}");
             if(response != null && response.Data != null)
             {
                 Article = response.Data;
@@ -42,7 +42,7 @@ namespace ModernPharmacy.Client.Services.ArticleService
 
         public async Task GetArticleByTitleAsync(string title)
         {
-            var response = await _http.GetFromJsonAsync<ServiceResponse<Article>>($"api/Article/{title}");
+            var response = await _http.GetFromJsonAsync<ServiceResponse<ArticleDto>>($"api/Article/{title}");
             if (response != null && response.Data != null)
             {
                 Article = response.Data;

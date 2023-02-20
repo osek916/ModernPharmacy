@@ -3,7 +3,7 @@
     public interface IArticleService
     {
         List<Article> Articles { get; set; }
-        Article Article { get; set; }
+        ArticleDto Article { get; set; }
         List<Tuple<string,  string>> ArticleTitlesAndPaths { get; set; }
         Task GetAllArticlesAsync();
         Task GetOnlyArticleTitlesAsync();

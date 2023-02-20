@@ -33,11 +33,6 @@ namespace ModernPharmacy.Server.Data
                 .WithOne(p => p.DifferentProduct)
                 .HasForeignKey<Product>(d => d.DifferentProductId);
 
-            //modelBuilder.Entity<Article>()
-            //    .HasMany<Tag>(a => a.Tags)
-            //    .WithOne(t => t.Articles)
-            //    .
-
             modelBuilder.Entity<ArticleTag>()
                 .HasKey(at => new { at.ArticleId, at.TagId });
 
@@ -52,9 +47,6 @@ namespace ModernPharmacy.Server.Data
                 .WithMany(article => article.ArticleTags)
                 .HasForeignKey(at => at.ArticleId);
 
-            //modelBuilder.Entity<Article>().HasMany(a => a.Tags)
-            //    .WithMany(t => t.Articles)
-            //    .Map()
             #region HasData           
 
             modelBuilder.Entity<SubstanceCategory>().HasData(
