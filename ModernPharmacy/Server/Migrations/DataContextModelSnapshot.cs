@@ -157,7 +157,7 @@ namespace ModernPharmacy.Server.Migrations
                         {
                             Id = 1,
                             CreatedById = 1,
-                            CreatedDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImagePath = "articleImages/antibiotics.jpg",
                             PagePath = "Antibiotics",
                             ParentId = 0,
@@ -168,7 +168,7 @@ namespace ModernPharmacy.Server.Migrations
                         {
                             Id = 2,
                             CreatedById = 1,
-                            CreatedDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImagePath = "articleImages/nootropics.jpg",
                             PagePath = "Nootropics",
                             ParentId = 0,
@@ -179,7 +179,7 @@ namespace ModernPharmacy.Server.Migrations
                         {
                             Id = 3,
                             CreatedById = 1,
-                            CreatedDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImagePath = "articleImages/painkillers.jpg",
                             PagePath = "Painkillers",
                             ParentId = 0,
@@ -190,7 +190,7 @@ namespace ModernPharmacy.Server.Migrations
                         {
                             Id = 4,
                             CreatedById = 1,
-                            CreatedDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImagePath = "articleImages/antiepileptic.jpg",
                             PagePath = "Antiepileptic",
                             ParentId = 0,
@@ -201,7 +201,7 @@ namespace ModernPharmacy.Server.Migrations
                         {
                             Id = 5,
                             CreatedById = 1,
-                            CreatedDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImagePath = "articleImages/sleep.jpg",
                             PagePath = "SleepHigiene",
                             ParentId = 0,
@@ -212,7 +212,7 @@ namespace ModernPharmacy.Server.Migrations
                         {
                             Id = 6,
                             CreatedById = 1,
-                            CreatedDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImagePath = "articleImages/vitamins.jpg",
                             PagePath = "Vitamins",
                             ParentId = 0,
@@ -1478,16 +1478,11 @@ namespace ModernPharmacy.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("ArticleId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ArticleId");
 
                     b.ToTable("Tags");
 
@@ -1752,13 +1747,13 @@ namespace ModernPharmacy.Server.Migrations
             modelBuilder.Entity("ModernPharmacy.Shared.Entities.ArticleTag", b =>
                 {
                     b.HasOne("ModernPharmacy.Shared.Entities.Article", "Article")
-                        .WithMany()
+                        .WithMany("ArticleTags")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ModernPharmacy.Shared.Entities.Tag", "Tag")
-                        .WithMany()
+                        .WithMany("ArticleTags")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1840,13 +1835,6 @@ namespace ModernPharmacy.Server.Migrations
                     b.Navigation("SubstanceCategory");
                 });
 
-            modelBuilder.Entity("ModernPharmacy.Shared.Entities.Tag", b =>
-                {
-                    b.HasOne("ModernPharmacy.Shared.Entities.Article", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("ArticleId");
-                });
-
             modelBuilder.Entity("SubstanceSubstanceCategory", b =>
                 {
                     b.HasOne("ModernPharmacy.Shared.SubstanceCategory", null)
@@ -1864,7 +1852,7 @@ namespace ModernPharmacy.Server.Migrations
 
             modelBuilder.Entity("ModernPharmacy.Shared.Entities.Article", b =>
                 {
-                    b.Navigation("Tags");
+                    b.Navigation("ArticleTags");
                 });
 
             modelBuilder.Entity("ModernPharmacy.Shared.Entities.DifferentProduct", b =>
@@ -1888,6 +1876,11 @@ namespace ModernPharmacy.Server.Migrations
             modelBuilder.Entity("ModernPharmacy.Shared.Entities.Product", b =>
                 {
                     b.Navigation("ProductStates");
+                });
+
+            modelBuilder.Entity("ModernPharmacy.Shared.Entities.Tag", b =>
+                {
+                    b.Navigation("ArticleTags");
                 });
 #pragma warning restore 612, 618
         }

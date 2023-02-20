@@ -10,7 +10,14 @@
     <div class="title"><span>@ArticleService.Article.Title</span></div>
     <div>
         <div class="author">@($"Created by {ArticleService.Article.CreatedById} {ArticleService.Article.CreatedDate}")</div>
-        <div class="tags"></div>
+        <div class="tags">
+            <p>Tags:</p>
+
+           @* @foreach (var item in ArticleService.Article.Tags)
+            {
+                <p> @item</p>
+            }*@
+        </div>
     </div>
     <div class="text-container"><p>@ArticleService.Article.Text</p></div>
     

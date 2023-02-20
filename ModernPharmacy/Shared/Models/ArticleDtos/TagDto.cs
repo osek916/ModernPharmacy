@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModernPharmacy.Shared.Entities
+namespace ModernPharmacy.Shared.Models.ArticleDtos
 {
-    public class Tag
+    public class TagDto
     {
-        public int Id { get; set; }
+        public int TagId { get; set; }
         public string Name { get; set; }
-        public List<ArticleTag> ArticleTags { get; set; }
     }
 }

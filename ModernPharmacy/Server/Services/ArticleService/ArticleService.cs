@@ -1,4 +1,6 @@
-﻿namespace ModernPharmacy.Server.Services.ArticleService
+﻿using ModernPharmacy.Shared.Models.ArticleDtos;
+
+namespace ModernPharmacy.Server.Services.ArticleService
 {
     public class ArticleService : IArticleService
     {
@@ -14,7 +16,7 @@
             var response = new ServiceResponse<List<Article>>
             {
                 Data = await _dataContext.Articles
-                .Include(a => a.Tags)
+                
                 .ToListAsync()
             };
 
@@ -37,30 +39,37 @@
             return response;
         }
 
-        public async Task<ServiceResponse<Article>> GetArticleByTitleAsync(string title)
-        {
-            
+        public async Task<ServiceResponse<ArticleDto>> GetArticleByTitleAsync(string title)
+        {            
                 if (title == string.Empty)
                     throw new BadRequestException($"Title cannot be empty");
 
-                var response = new ServiceResponse<Article>();
-                var article = await _dataContext.Articles.FirstOrDefaultAsync(a => a.Title == title);
-                if (article == null)
-                {
-                    throw new NotFoundException($"Article doesn't exist");
-                }
+                var response = new ServiceResponse<ArticleDto>();
 
-                response.Data = article;
-                return response;
-            
+            var article = await _dataContext.ArticleTags.Include(x =>
+            x.Tag).Where(entry => entry.Article.Title == title)
+            .Select(ad => new ArticleDto
+            {
+                Title = ad.Article.Title,
+                CreatedDate = ad.Article.CreatedDate,
+                CreatedById = ad.Article.CreatedById,
+                ImagePath = ad.Article.ImagePath,
+                ModifiedDate = ad.Article.ModifiedDate,
+                ModifiedById = ad.Article.ModifiedById,
+                PagePath = ad.Article.PagePath,
+                ParentId = ad.Article.ParentId,
+                Text = ad.Article.Text,
+                Tags = _dataContext.ArticleTags.Include(z => z.Tag)
+                .Where(g => g.ArticleId == ad.ArticleId)
+                .Select(s => new TagDto { TagId = s.TagId ,Name = s.Tag.Name }).ToList()
+            }).FirstOrDefaultAsync();
 
-            
-            
+            response.Data = article;
+            return response;             
         }
 
         public async Task<ServiceResponse<List<Tuple<string, string>>>> GetOnlyArticleTitlesAsync() 
-        {
-            
+        {           
                 var response = new ServiceResponse<List<Tuple<string, string>>>();
                 List<Tuple<string, string>> articles = await _dataContext.Articles.Select(a => new Tuple<string, string>(a.Title, a.PagePath))
                     .ToListAsync();
@@ -71,11 +80,7 @@
                 }
 
                 response.Data = articles;
-                return response;
-           
-
-            
-            
+                return response;                                
         }
     }
 }
