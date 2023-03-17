@@ -61,7 +61,7 @@ namespace ModernPharmacy.Server.Services.ArticleService
                 Text = ad.Article.Text,
                 Tags = _dataContext.ArticleTags.Include(z => z.Tag)
                 .Where(g => g.ArticleId == ad.ArticleId)
-                .Select(s => new TagDto { TagId = s.TagId ,Name = s.Tag.Name }).ToList()
+                .Select(s => new TagDto { TagId = s.TagId, Name = s.Tag.Name }).ToList()
             }).FirstOrDefaultAsync();
 
             response.Data = article;

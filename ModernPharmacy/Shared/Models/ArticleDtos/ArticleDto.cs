@@ -17,7 +17,7 @@ namespace ModernPharmacy.Shared.Models.ArticleDtos
         public DateTime? ModifiedDate { get; set; }
         public int? ModifiedById { get; set; }
         public int ParentId { get; set; } = 0;
-        public List<TagDto> Tags { get; set; }
+        public List<TagDto> Tags { get; set; } = new List<TagDto>();
         public string PagePath { get; set; } = string.Empty;
     }
 }

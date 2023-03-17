@@ -12,7 +12,7 @@ using ModernPharmacy.Server.Data;
 namespace ModernPharmacy.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230217141321_Init")]
+    [Migration("20230304184903_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -159,7 +159,7 @@ namespace ModernPharmacy.Server.Migrations
                         {
                             Id = 1,
                             CreatedById = 1,
-                            CreatedDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             ImagePath = "articleImages/antibiotics.jpg",
                             PagePath = "Antibiotics",
                             ParentId = 0,
@@ -170,18 +170,18 @@ namespace ModernPharmacy.Server.Migrations
                         {
                             Id = 2,
                             CreatedById = 1,
-                            CreatedDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             ImagePath = "articleImages/nootropics.jpg",
                             PagePath = "Nootropics",
                             ParentId = 0,
-                            Text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                            Text = "<b>Lorem Ipsum is simply dummy text</b> of the printing<strong> and typesetting </strong> industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                             Title = "Nootropics"
                         },
                         new
                         {
                             Id = 3,
                             CreatedById = 1,
-                            CreatedDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             ImagePath = "articleImages/painkillers.jpg",
                             PagePath = "Painkillers",
                             ParentId = 0,
@@ -192,7 +192,7 @@ namespace ModernPharmacy.Server.Migrations
                         {
                             Id = 4,
                             CreatedById = 1,
-                            CreatedDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             ImagePath = "articleImages/antiepileptic.jpg",
                             PagePath = "Antiepileptic",
                             ParentId = 0,
@@ -203,7 +203,7 @@ namespace ModernPharmacy.Server.Migrations
                         {
                             Id = 5,
                             CreatedById = 1,
-                            CreatedDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             ImagePath = "articleImages/sleep.jpg",
                             PagePath = "SleepHigiene",
                             ParentId = 0,
@@ -214,7 +214,7 @@ namespace ModernPharmacy.Server.Migrations
                         {
                             Id = 6,
                             CreatedById = 1,
-                            CreatedDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             ImagePath = "articleImages/vitamins.jpg",
                             PagePath = "Vitamins",
                             ParentId = 0,
